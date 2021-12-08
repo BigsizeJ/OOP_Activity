@@ -33,6 +33,7 @@ public class Action extends Frame{
                     JOptionPane.showMessageDialog(null, "Login Success", "Error Login", 0);
                     MemberLabel[4].setText(MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".");
                     MemberLabel[5].setText(MemberAddress[i]);
+                    MemberLabel[6].setText(String.valueOf(MemberCash[i]));
                     MemberFrame.setVisible(true);
                     Loginframe.dispose();
                     noMatch = false;
@@ -112,6 +113,7 @@ public class Action extends Frame{
                 MemberFN[memberCount] = fname.toUpperCase();
                 MemberSN[memberCount] = sname.toUpperCase();
                 MemberMI[memberCount] = mname.toUpperCase();
+                MemberCash[memberCount] = 0;
                 MemberAddress[memberCount] = address.toUpperCase();
                 memberCount++;
 
@@ -129,7 +131,7 @@ public class Action extends Frame{
             boolean gotclick = false;
             String Areaformat = "";
             for(int i = 0; i < memberCount; i++){
-                Areaformat = Areaformat + "[" + MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".] [" + MemberID[i] + "] [" + MemberPW[i] + "] \n";
+                Areaformat = Areaformat + "[" + MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".] [" + MemberID[i] + "] [" + MemberPW[i] + "] " + "[" + String.valueOf(MemberCash[i]) + "] \n";
                 Show.setText(Areaformat);
                 gotclick = true;
             }
@@ -137,9 +139,36 @@ public class Action extends Frame{
                 ShowButton.setText("Refresh");
             }
         }
+        
+        //AddCash
+        if(Clicked.getSource() == AdminButton[2]){
+            AddCashFrame.setVisible(true);
+        }
+        if(Clicked.getSource() == AddCashButton){
+            String ICTS = AddCashField[0].getText();
+            String Currency = String.valueOf(CurrencySelector.getSelectedItem());
+            String Amount = AddCashField[1].getText().toLowerCase();
+            if(memberCount == 0){
+                JOptionPane.showMessageDialog(null, "No member", "Error", 0);
+            }
+
+            for(int i = 0; i < Amount.length(); i++){
+                if(Amount.charAt(i) >= 'a' && Amount.charAt(i)<= 'z'){
+                    JOptionPane.showMessageDialog(null, "The amount container a letter", "Error Amount", 0);
+                }
+            }
+
+            for(int i = 0; i < memberCount; i++){
+                if(ICTS.matches(MemberID[i])){
+                    String fullname = MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".";
+                    JOptionPane.showMessageDialog(null, "The Amount have been sent to " + fullname, "Success", 1);
+                    MemberCash[i] += Integer.parseInt(Amount);     
+                }
+            }
+        }
 
         //Logout
-        if(Clicked.getSource() == AdminButton[2]){
+        if(Clicked.getSource() == AdminButton[3]){
             Loginframe.setVisible(true);
             AdminFrame.dispose();
         }

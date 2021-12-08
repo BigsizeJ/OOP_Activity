@@ -18,7 +18,7 @@ public class Frame implements ActionListener{
     JFrame AdminFrame = new JFrame("Admin - Dashboard");
     JPanel AdminPanel = new JPanel();
     JLabel AdminLabel[] = new JLabel[3];
-    JButton AdminButton[] = new JButton[3];
+    JButton AdminButton[] = new JButton[4];
 
     //Member Variable
     JFrame MemberFrame = new JFrame("Member - Dashboard");
@@ -43,6 +43,18 @@ public class Frame implements ActionListener{
     JTextArea Show = new JTextArea();
     JButton ShowButton = new JButton();
 
+    //Admin add cash
+    JFrame AddCashFrame = new JFrame("Add Balance");
+    JPanel AddCashPanel = new JPanel();
+    JLabel AddCashLabel[] = new JLabel[3];
+    JButton AddCashButton = new JButton();
+    JTextField AddCashField[] = new JTextField[2];
+    String CurrencyBox[] = {"US Dollar", "EUR", "Philippines Peso"};
+    JComboBox<String> CurrencySelector = new JComboBox<String>(CurrencyBox);
+    
+    
+
+
     //Misc Variable
     Font MainFont = new Font("Roboto Mono", Font.PLAIN, 18);
     Font TitleFont = new Font("Roboto Mono", Font.BOLD, 16);
@@ -61,6 +73,7 @@ public class Frame implements ActionListener{
     String MemberSN[] = new String[20];
     String MemberMI[] = new String[20];
     String MemberAddress[] = new String[20];
+    int MemberCash[] = new int[20];
     int memberCount = 0;
 
     //Admin Account
@@ -73,6 +86,7 @@ public class Frame implements ActionListener{
         MemberDash();
         MemberRegistration();
         showMember();
+        AdminCash();
     };
 
     void login(){
@@ -162,10 +176,13 @@ public class Frame implements ActionListener{
         AdminButton[1].setText("Show Member");
         AdminButton[1].setBounds(340, 100, 150, 50);
         
-        //Logout Button
-        AdminButton[2].setText("Logout");
+        //Add Cash button
+        AdminButton[2].setText("Add Balance");
         AdminButton[2].setBounds(10, 200, 150, 50);
 
+        //Logout Button
+        AdminButton[3].setText("Logout");
+        AdminButton[3].setBounds(340, 200, 150, 50);
     }
 
     void MemberDash(){
@@ -351,7 +368,60 @@ public class Frame implements ActionListener{
         ShowButton.setFocusable(false);
         ShowButton.setBackground(buttonColor);
         ShowButton.setBounds(10, 390, 470, 50);
-    }   
+    }
+
+    void AdminCash(){
+        AddCashFrame.setSize(500, 300);
+        AddCashFrame.setLocationRelativeTo(null);
+        AddCashFrame.setResizable(false);
+        AddCashFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        AddCashFrame.add(AddCashPanel);
+        AddCashPanel.setLayout(null);
+        AddCashPanel.add(CurrencySelector);
+        AddCashPanel.add(AddCashButton);
+
+        for(int i = 0; i < AddCashLabel.length; i++){
+            AddCashLabel[i] = new JLabel();
+            AddCashLabel[i].setFont(MainFont);
+            AddCashPanel.add(AddCashLabel[i]);
+        }
+        
+        for(int i = 0; i < AddCashField.length; i++){
+            AddCashField[i] = new JTextField();
+            AddCashField[i].setFont(MainFont);
+            AddCashPanel.add(AddCashField[i]);
+        }
+
+        //ICTS ID
+        AddCashLabel[0].setText("ICTS ID");
+        AddCashLabel[0].setBounds(10, 10, 200, 30);
+        AddCashField[0].setBounds(150, 10, 330, 30);
+
+        //Currency
+        AddCashLabel[1].setText("Currency");
+        AddCashLabel[1].setBounds(10, 60, 200, 50);
+        CurrencySelector.setBounds(150, 70, 330, 30);
+        CurrencySelector.setFont(MainFont);
+        CurrencySelector.setSelectedItem(0);
+        CurrencySelector.setEditable(false);
+        CurrencySelector.setFocusable(false);
+        CurrencySelector.setBorder(null);
+
+        //Amount
+        AddCashLabel[2].setText("Amount");
+        AddCashLabel[2].setBounds(10, 130, 200, 30);
+        AddCashField[1].setBounds(150, 130, 330, 30);
+        AddCashFrame.setVisible(true);
+
+        //Button
+        AddCashButton.setText("Submit");
+        AddCashButton.setFont(MainFont);
+        AddCashButton.addActionListener(this);
+        AddCashButton.setFocusable(false);
+        AddCashButton.setBorder(null);
+        AddCashButton.setBackground(buttonColor);
+        AddCashButton.setBounds(10, 190, 480, 50);
+    }
 
     @Override
     public void actionPerformed(ActionEvent Clicked){};

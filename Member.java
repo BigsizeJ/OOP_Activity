@@ -68,8 +68,6 @@ public class Member extends Variable{
         //Logout Button
         MemberButton[2].setText("Logout");
         MemberButton[2].setBounds(290, 350, 200, 50);
-           
-        MemberFrame.setVisible(true);
     }
 
     void MemberSetting(){
@@ -95,6 +93,15 @@ public class Member extends Variable{
             SettingPanel.add(SettingField[i]);
         }
 
+        for(int i = 0; i < SettingButton.length; i++){
+            SettingButton[i] = new JButton();
+            SettingButton[i].setFont(MainFont);
+            SettingButton[i].setFocusable(false);
+            SettingButton[i].setBorder(null);
+            SettingButton[i].setBackground(buttonColor);
+            SettingButton[i].addActionListener(this);
+            SettingPanel.add(SettingButton[i]);
+        }
         //Title
         SettingLabel[0].setText("Account Information");
         SettingLabel[0].setBounds(10, 10, 380, 50);
@@ -131,6 +138,11 @@ public class Member extends Variable{
         UserCurrency.setBounds(10, 360, 380, 25);
         UserCurrency.setSelectedIndex(0);
         UserCurrency.setFocusable(false);
+
+        //Apply Button
+        SettingButton[0].setText("Apply Change");
+        SettingButton[0].setBounds(10, 450, 380, 30);
+        SettingFrame.setVisible(true);
         
     }
 }

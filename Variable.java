@@ -33,7 +33,7 @@ public class Variable implements ActionListener{
     JPanel SettingPanel = new JPanel();
     JLabel SettingLabel[] = new JLabel[7];
     JTextField SettingField[] = new JTextField[5];
-    JButton SettingButton = new JButton();
+    JButton SettingButton[] = new JButton[3];
     JComboBox<String> UserCurrency = new JComboBox<String>(CurrencyArray);
 
     //Registration of Member Variable
@@ -72,7 +72,7 @@ public class Variable implements ActionListener{
     Border border = BorderFactory.createLineBorder(Color.black);
     Border Showborder = BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10));
     final double US_RATE = 1;
-    final double PH_RATE = 0.020;
+    final double PHP_RATE = 0.020;
     final double EUR_RATE = 1.13;
     
     //Array Data
@@ -82,7 +82,10 @@ public class Variable implements ActionListener{
     String MemberSN[] = new String[20];
     String MemberMI[] = new String[20];
     String MemberAddress[] = new String[20];
+    String MemberCurrency[] = new String[20];
     double MemberCash[] = new double[20];
+    String AddCashCurrency;
+    
     int memberCount = 0;
     int memberActive;
 

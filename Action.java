@@ -92,6 +92,7 @@ public class Action extends Admin{
                 MemberFN[memberCount] = fname.toUpperCase();
                 MemberSN[memberCount] = sname.toUpperCase();
                 MemberMI[memberCount] = mname.toUpperCase();
+                MemberCurrency[memberCount] = "USD";
                 MemberCash[memberCount] = 0;
                 MemberAddress[memberCount] = address.toUpperCase();
                 memberCount++;
@@ -144,15 +145,46 @@ public class Action extends Admin{
                     String fullname = MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".";
                     switch(CurrencySelector.getSelectedIndex()){
                         case 0:
-                            MemberCash[i] += (US_RATE * Double.parseDouble(Amount));
+                            switch(MemberCurrency[i]){
+                                case "USD":
+                                    MemberCash[i] += Double.parseDouble(Amount);
+                                    break;
+                                case "EUR":
+                                    MemberCash[i] += (MemberCash[i] * EUR_RATE);
+                                    break;
+                                case "PHP":
+                                    MemberCash[i] += (MemberCash[i] * PHP_RATE);
+                                    break;
+                            }
                             break;
                         case 1:
-                            MemberCash[i] += (EUR_RATE * Double.parseDouble(Amount));
+                            switch(MemberCurrency[i]){
+                                case "USD":
+                                    MemberCash[i] += Double.parseDouble(Amount);
+                                    break;
+                                case "EUR":
+                                    MemberCash[i] += (MemberCash[i] * EUR_RATE);
+                                    break;
+                                case "PHP":
+                                    MemberCash[i] += (MemberCash[i] * PHP_RATE);
+                                    break;
+                            }
                             break;
                         case 2:
-                            MemberCash[i] += (PH_RATE * Double.parseDouble(Amount));
+                            switch(MemberCurrency[i]){
+                                case "USD":
+                                    MemberCash[i] += Double.parseDouble(Amount);
+                                    break;
+                                case "EUR":
+                                    MemberCash[i] += (MemberCash[i] * EUR_RATE);
+                                    break;
+                                case "PHP":
+                                    MemberCash[i] += (MemberCash[i] * PHP_RATE);
+                                    break;
+                            }
                             break;
                     }
+                    MemberLabel[6].setText(MemberCurrency[i] + " " + String.valueOf(MemberCash[i]));
                     JOptionPane.showMessageDialog(null, "The Amount have been sent to " + fullname, "Send Success", 1);
                 }
             }
@@ -177,7 +209,7 @@ public class Action extends Admin{
                     memberActive = i;
                     MemberLabel[4].setText(MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".");
                     MemberLabel[5].setText(MemberAddress[i]);
-                    MemberLabel[6].setText(String.valueOf(MemberCash[i]));
+                    MemberLabel[6].setText(MemberCurrency[i] + " " + String.valueOf(MemberCash[i]));
                     MemberFrame.setVisible(true);
                     Loginframe.dispose();
                     noMatch = false;
@@ -197,10 +229,63 @@ public class Action extends Admin{
             SettingField[2].setText(MemberAddress[memberActive]);
             SettingFrame.setVisible(true);
         }
+        //Setting ApplyChange
+        if(Clicked.getSource() == SettingButton[0]){
+            switch(UserCurrency.getSelectedIndex()){
+                case 0:
+                    MemberCurrency[memberActive] = "USD";
+                    switch(MemberCurrency[memberActive]){
+                        case "USD":
+                            MemberCash[memberActive] = MemberCash[memberActive];
+                            break;
+                        case "EUR":
+                            MemberCash[memberActive] = (MemberCash[memberActive] * EUR_RATE);
+                            break;
+                        case "PHP":
+                            MemberCash[memberActive] = (MemberCash[memberActive] * PHP_RATE);
+                            break;
+                    }
+                    MemberLabel[6].setText(MemberCurrency[memberActive] + " " + String.valueOf(MemberCash[memberActive]));
+                    break;
+                case 1:
+                    MemberCurrency[memberActive] = "EUR";
+                    switch(MemberCurrency[memberActive]){
+                        case "USD":
+                            MemberCash[memberActive] += MemberCash[memberActive];
+                            break;
+                        case "EUR":
+                            MemberCash[memberActive] += (MemberCash[memberActive] * EUR_RATE);
+                            break;
+                        case "PHP":
+                            MemberCash[memberActive] += (MemberCash[memberActive] * PHP_RATE);
+                            break;
+                    }
+                    MemberLabel[6].setText(MemberCurrency[memberActive] + " " + String.valueOf(MemberCash[memberActive]));
+                    break;
+                case 2:
+                    MemberCurrency[memberActive] = "PHP";
+                    switch(MemberCurrency[memberActive]){
+                        case "USD":
+                            MemberCash[memberActive] += MemberCash[memberActive];
+                            break;
+                        case "EUR":
+                            MemberCash[memberActive] += (MemberCash[memberActive] * EUR_RATE);
+                            break;
+                        case "PHP":
+                            MemberCash[memberActive] += (MemberCash[memberActive] * PHP_RATE);
+                            break;
+                    }
+                    MemberLabel[6].setText(MemberCurrency[memberActive] + " " + String.valueOf(MemberCash[memberActive]));
+                    break;
+            }
+        }
         //Logout
         if(Clicked.getSource() == MemberButton[2]){
             Loginframe.setVisible(true);
             MemberFrame.dispose();
         }
+
+        
+        
     }
 }

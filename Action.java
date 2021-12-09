@@ -2,11 +2,13 @@ import java.awt.event.*;
 
 import javax.swing.JOptionPane;
 
-public class Action extends Frame{
+public class Action extends Admin{
     @Override
     public void actionPerformed(ActionEvent Clicked){
         
-        //Login Admin
+        //////------ADMIN BUTTON------\\\\\\
+
+        //Login
         if(Clicked.getSource() == LoginButton[0]){
             String ID = LoginID.getText();
             String PW = String.valueOf(LoginPW.getPassword());
@@ -22,29 +24,6 @@ public class Action extends Frame{
 
         }
 
-        //Login Member
-        if(Clicked.getSource() == LoginButton[1]){
-            String ID = LoginID.getText();
-            String PW = String.valueOf(LoginPW.getPassword());
-            boolean noMatch = true;
-
-            for(int i = 0; i < memberCount; i++){
-                if(ID.matches(MemberID[i]) && PW.matches(MemberPW[i])){
-                    JOptionPane.showMessageDialog(null, "Login Success", "Error Login", 0);
-                    MemberLabel[4].setText(MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".");
-                    MemberLabel[5].setText(MemberAddress[i]);
-                    MemberLabel[6].setText(String.valueOf(MemberCash[i]));
-                    MemberFrame.setVisible(true);
-                    Loginframe.dispose();
-                    noMatch = false;
-                    return;
-                }
-            }
-            if(noMatch){
-                JOptionPane.showMessageDialog(null, "Invalid ID and/or Password", "Error Login", 0);
-            }
-        }
-        
         //Member Registration
         if(Clicked.getSource() == AdminButton[0]){
             RegFrame.setVisible(true);
@@ -122,11 +101,12 @@ public class Action extends Frame{
             }
         }
 
-        //Show Member
+        //Show Member Frame
         if(Clicked.getSource() == AdminButton[1]){
             ShowFrame.setVisible(true);
         }
 
+        //SHOW MEMBER FUNCTION
         if(Clicked.getSource() == ShowButton){
             boolean gotclick = false;
             String Areaformat = "";
@@ -140,13 +120,14 @@ public class Action extends Frame{
             }
         }
         
-        //AddCash
+        //AddCashFrameShow
         if(Clicked.getSource() == AdminButton[2]){
             AddCashFrame.setVisible(true);
         }
+
+        //AddCash
         if(Clicked.getSource() == AddCashButton){
             String ICTS = AddCashField[0].getText();
-            String Currency = String.valueOf(CurrencySelector.getSelectedItem());
             String Amount = AddCashField[1].getText().toLowerCase();
             if(memberCount == 0){
                 JOptionPane.showMessageDialog(null, "No member", "Error", 0);
@@ -161,8 +142,18 @@ public class Action extends Frame{
             for(int i = 0; i < memberCount; i++){
                 if(ICTS.matches(MemberID[i])){
                     String fullname = MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".";
-                    JOptionPane.showMessageDialog(null, "The Amount have been sent to " + fullname, "Success", 1);
-                    MemberCash[i] += Integer.parseInt(Amount);     
+                    switch(CurrencySelector.getSelectedIndex()){
+                        case 0:
+                            MemberCash[i] += (US_RATE * Double.parseDouble(Amount));
+                            break;
+                        case 1:
+                            MemberCash[i] += (EUR_RATE * Double.parseDouble(Amount));
+                            break;
+                        case 2:
+                            MemberCash[i] += (PH_RATE * Double.parseDouble(Amount));
+                            break;
+                    }
+                    JOptionPane.showMessageDialog(null, "The Amount have been sent to " + fullname, "Send Success", 1);
                 }
             }
         }
@@ -172,6 +163,44 @@ public class Action extends Frame{
             Loginframe.setVisible(true);
             AdminFrame.dispose();
         }
+    
+        //////------MEMBER BUTTON------\\\\\\
 
+        //Login
+        if(Clicked.getSource() == LoginButton[1]){
+            String ID = LoginID.getText();
+            String PW = String.valueOf(LoginPW.getPassword());
+            boolean noMatch = true;
+
+            for(int i = 0; i < memberCount; i++){
+                if(ID.matches(MemberID[i]) && PW.matches(MemberPW[i])){
+                    memberActive = i;
+                    MemberLabel[4].setText(MemberSN[i] + ", " + MemberFN[i] + " " + MemberMI[i] + ".");
+                    MemberLabel[5].setText(MemberAddress[i]);
+                    MemberLabel[6].setText(String.valueOf(MemberCash[i]));
+                    MemberFrame.setVisible(true);
+                    Loginframe.dispose();
+                    noMatch = false;
+                    return;
+                }
+            }
+            if(noMatch){
+                JOptionPane.showMessageDialog(null, "Invalid ID and/or Password", "Error Login", 0);
+            }
+        }
+        
+        //Setting
+        if(Clicked.getSource() == MemberButton[1]){
+            String Fullname = MemberSN[memberActive] + ", " + MemberFN[memberActive] + " " + MemberMI[memberActive] + ".";
+            SettingField[0].setText(MemberID[memberActive]);
+            SettingField[1].setText(Fullname);
+            SettingField[2].setText(MemberAddress[memberActive]);
+            SettingFrame.setVisible(true);
+        }
+        //Logout
+        if(Clicked.getSource() == MemberButton[2]){
+            Loginframe.setVisible(true);
+            MemberFrame.dispose();
+        }
     }
 }
